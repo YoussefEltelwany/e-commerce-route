@@ -1,0 +1,51 @@
+<section class="max-w-3xl mx-auto mt-10 p-6 bg-white dark:bg-gray-900 rounded-xl shadow-lg">
+  @if (cartItems().length > 0) {
+    <h2 class="text-2xl font-semibold mb-6 text-gray-800 dark:text-white">🛒 Your Cart</h2>
+
+    @for (item of cartItems(); track item.productId) {
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 mb-4 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="flex items-center gap-4">
+          <img [src]="item.image" alt="Product" class="w-20 h-20 object-cover rounded-lg border border-gray-300 dark:border-gray-600" />
+          <div>
+            <h3 class="text-lg font-medium text-gray-800 dark:text-white">{{ item.title.split(' ').slice(0, 3).join(' ')}}</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              {{ item.price | currency }} × {{ item.quantity }}
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 text-xl text-gray-800 dark:text-white">
+          <button (click)="decrease(item)" class="hover:text-red-500 transition" title="Decrease">
+            <i class="fas fa-minus-circle"></i>
+          </button>
+          <span class="font-semibold">{{ item.quantity }}</span>
+          <button (click)="increase(item)" class="hover:text-green-500 transition" title="Increase">
+            <i class="fas fa-plus-circle"></i>
+          </button>
+        </div>
+
+        <button (click)="remove(item)" class="text-red-600 hover:text-red-800 transition text-lg" title="Remove">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>
+    }
+
+    <div class="text-right mt-6">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white">Total: {{ total() | currency }}</h2>
+      <button
+        (click)="checkout()"
+
+        aria-label="Proceed to checkout"
+      class="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+        <i class="fas fa-credit-card mr-2"></i> Checkout
+      </button>
+    </div>
+  } @else {
+    <div class="text-center py-10 text-gray-500 dark:text-gray-300">
+      <p class="text-lg mb-4"><i class="fas fa-shopping-cart text-2xl"></i><br>Your cart is empty.</p>
+      <a routerLink="/home" class="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+        <i class="fas fa-store mr-2"></i> Browse Products
+      </a>
+    </div>
+  }
+</section>
