@@ -7,16 +7,17 @@ import { SearchPipe } from '../../core/pipes/search/search.pipe';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { CartService } from '../../core/services/cart/cartservice.service';
+import { SortPipe } from '../../core/pipes/sort/sort.pipe';
 
 
 @Component({
   selector: 'app-home',
-  imports: [CurrencyPipe, RouterLink, SearchPipe, FormsModule],
+  imports: [CurrencyPipe, RouterLink, SearchPipe, FormsModule,SortPipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-
+  sortOption: string = '';
   prouducts: WritableSignal<Iproduct[]> = signal([])
   private readonly showprouductService = inject(ShowprouductService);
   private readonly cartService = inject(CartService);
@@ -58,4 +59,24 @@ export class HomeComponent implements OnInit {
       }
     })
   }
+
+ onSortChange(event: Event) {
+  const target = event.target as HTMLSelectElement;
+  const selectedValue = target.value;
+
+  const currentProducts = this.prouducts();
+
+  let sortedProducts = [...currentProducts];
+
+  if (selectedValue === 'price-asc') {
+    sortedProducts.sort((a, b) => a.price - b.price);
+  } else if (selectedValue === 'price-desc') {
+    sortedProducts.sort((a, b) => b.price - a.price);
+  } else if (selectedValue === 'name-asc') {
+    sortedProducts.sort((a, b) => a.title.localeCompare(b.title));
+  }
+
+  this.prouducts.set(sortedProducts); 
+}
+
 }

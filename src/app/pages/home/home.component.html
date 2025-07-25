@@ -41,21 +41,22 @@
     </div>
 
     <div class="w-full sm:w-1/3">
-      <select
-        aria-label="Sort products"
-        class="w-full py-2 px-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        <option value="price-asc">Price: Low to High</option>
-        <option value="price-desc">Price: High to Low</option>
-        <option value="name-asc">Name: A-Z</option>
-      </select>
+    <select
+  (change)="onSortChange($event)"
+  class="w-full py-2 px-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+>
+  <option value="price-asc">Price: Low to High</option>
+  <option value="price-desc">Price: High to Low</option>
+  <option value="name-asc">Name: A-Z</option>
+</select>
+
     </div>
   </div>
 
   <div
     class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 sm:p-6"
   >
-    @for (prod of prouducts() | search:searchText; track prod.id) {
+    @for (prod of prouducts() | search:searchText | sortProducts:sortOption; track prod.id) {
     <div
       class="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 relative group overflow-hidden dir-rtl flex flex-col"
     >
